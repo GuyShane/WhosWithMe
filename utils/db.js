@@ -39,12 +39,12 @@ async function vote(pid, voter, wth){
     return await post.save();
 }
 
-async function getPosts(user){
-    if (_.isUndefined(user)){
-        return await Post.find({}).sort({date: 'desc'});
+async function getPosts(opts){
+    if (!_.isUndefined(opts.page)){
+        return await Post.find({}).sort({date: 'desc'}).skip(50*opts.page).limit(50);
     }
     else {
-        return await Post.find({}).where('author', user).sort({date: 'desc'});
+        return await Post.find({}).where('author', opts.user).sort({date: 'desc'});
     }
 }
 

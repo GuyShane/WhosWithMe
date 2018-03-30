@@ -11,11 +11,12 @@ router.get('/', (req, res)=>{
 router.get('/api/posts', async (req, res)=>{
     let user;
     const auth=res.locals.authenticated;
+    const page=req.query.page||0;
     if (auth){
         user=res.locals.decoded.user.username;
     }
     const posts=[];
-    (await db.getPosts()).forEach((p)=>{
+    (await db.getPosts({page: page})).forEach((p)=>{
         const post=_.pick(p, ['author', 'date', 'text']);
         const counts=_.countBy(p.votes, (v)=>{return v.with;});
         post.with=counts.true||0;
