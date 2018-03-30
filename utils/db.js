@@ -39,8 +39,13 @@ async function vote(pid, voter, wth){
     return await post.save();
 }
 
-async function getPosts(){
-    return await Post.find({}).sort({date: 'desc'});
+async function getPosts(user){
+    if (_.isUndefined(user)){
+        return await Post.find({}).sort({date: 'desc'});
+    }
+    else {
+        return await Post.find({}).where('author', user).sort({date: 'desc'});
+    }
 }
 
 module.exports={
