@@ -24,6 +24,27 @@ window.onload=function(){
         });
     }
 
+    function vote(id, wth){
+        return new Promise(function(resolve){
+            fetch('http://localhost:3000/api/vote', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: id,
+                    with: wth
+                })
+            })
+                .then(function(response){
+                    return response.json();
+                })
+                .then(function(data){
+                    resolve(data);
+                });
+        });
+    }
+
     function removeLoader(){
         document.querySelector('#spinner').remove();
     }
@@ -33,6 +54,11 @@ window.onload=function(){
             el: '#posts',
             data: {
                 posts: data
+            },
+            methods: {
+                vote: function(id, wth){
+                    vote(id, wth);
+                }
             }
         });
     }

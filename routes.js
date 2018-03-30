@@ -17,7 +17,7 @@ router.get('/api/posts', async (req, res)=>{
     }
     const posts=[];
     (await db.getPosts({page: page})).forEach((p)=>{
-        const post=_.pick(p, ['author', 'date', 'text']);
+        const post=_.pick(p, ['_id', 'author', 'date', 'text']);
         const counts=_.countBy(p.votes, (v)=>{return v.with;});
         post.with=counts.true||0;
         post.against=counts.false||0;
