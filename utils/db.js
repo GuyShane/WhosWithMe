@@ -1,5 +1,6 @@
 const mongoose=require('mongoose');
 const ObjectId=mongoose.Types.ObjectId;
+const _=require('lodash');
 
 const Post=require('../models/post');
 
@@ -18,11 +19,33 @@ function connect(){
     });
 }
 
+async function savePost(author, text){
+    const p=new Post({
+        author: author,
+        text: text
+    });
+    return await p.save();
+}
+
+async function vote(pid, voter, wth){
+    const post=await Post.findOneById(new ObjectId(pid));
+    if (!!_.find(post.votes, ['voter', voter])){
+        return {};
+    }
+    post.votes.push({
+        voter: voter,
+        with: wth
+    });
+    return await post.save();
+}
+
 async function getPosts(){
     return await Post.find({}).sort({date: 'desc'});
 }
 
 module.exports={
     connect: connect,
+    savePost: savePost,
+    vote: vote,
     getPosts: getPosts
 };
