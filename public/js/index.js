@@ -1,11 +1,31 @@
 window.onload=function(){
-    let posts;
+    var posts;
 
     getPosts()
         .then(function(data){
             removeLoader();
             posts=vueInit(data);
         });
+
+    document.querySelector('#open-editor').addEventListener('click', showEditor);
+    document.querySelector('#close-editor').addEventListener('click', closeEditor);
+
+    var unlocker=new Unlock({
+        url: 'ws://localhost:3000',
+        email: '#email',
+        color: '#5755d9',
+        onMessage: function(data){
+            console.log(data);
+        }
+    });
+
+    function showEditor(){
+        document.querySelector('#post-editor').classList.add('active');
+    }
+
+    function closeEditor(){
+        document.querySelector('#post-editor').classList.remove('active');
+    }
 
     function getPosts(){
         return new Promise(function(resolve){

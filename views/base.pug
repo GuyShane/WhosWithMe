@@ -3,6 +3,7 @@ html
   head
     title= title
     link(rel='stylesheet' href='/css/lib/spectre.min.css')
+    block css
   body
     header.navbar.bg-primary
       section.navbar-section
@@ -13,6 +14,7 @@ html
     block content
     script(src='/js/lib/promise.min.js')
     script(src='/js/lib/fetch.js')
-    //script(src='/js/lib/vue.min.js')
-    script(src='https://unpkg.com/vue@2.5.16/dist/vue.js')
+    script(src='/js/lib/vue.min.js')
+    //script(src='https://unpkg.com/vue@2.5.16/dist/vue.js')
+    script(src='/js/lib/masonry.min.js')
     block js

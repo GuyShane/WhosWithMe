@@ -5,7 +5,10 @@ const _=require('lodash');
 const db=require('./utils/db');
 
 router.get('/', (req, res)=>{
-    res.render('index');
+    const ctx={
+        authenticated: res.locals.authenticated
+    };
+    res.render('index', ctx);
 });
 
 router.get('/api/posts', async (req, res)=>{

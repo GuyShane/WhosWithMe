@@ -13,6 +13,11 @@
     "express": "^4.16.3",
     "lodash": "^4.17.5",
     "mongoose": "^5.0.12",
-    "pug": "^2.0.3"
+    "pug": "^2.0.3",
+    "unlock-node": "^1.0.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.2.1"
   }
 }

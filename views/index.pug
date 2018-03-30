@@ -1,6 +1,11 @@
 extends base
 
+block css
+  link(rel='stylesheet' href='/css/index.css')
+  link(rel='stylesheet' href='https://rawgit.com/GuyShane/UnlockClient/master/src/unlock.min.css')
+
 block js
+  script(src='https://rawgit.com/GuyShane/UnlockClient/master/src/unlock.min.js')
   script(src='/js/index.js')
 
 block content
@@ -18,3 +23,21 @@ block content
             .bar-item(:style='{width: ((post.with/(post.with+post.against))*100)+"%"}')
           span.with-count {{ post.with }} with
           span.against-count {{ post.against }} against
+  span#open-editor.btn.btn-primary.circle
+  #post-editor.modal
+    .modal-overlay
+    .modal-container
+      if !authenticated
+        .modal-header
+          .modal-title Log in to see who's with you:
+          input.form-input(type='email' id='email' placeholder='Email')
+          #unlock-button
+      .modal-body
+        #editor-header Whatcha thinkin about?
+        textarea.form-input(rows='5')
+      .modal-footer
+        if !authenticated
+          #add-post.btn.btn-primary.disabled Post
+        else
+          #add-post.btn.btn-primary Post
+        #close-editor.btn.btn-link Cancel

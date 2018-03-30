@@ -1,5 +1,6 @@
 const http=require('http');
 const path=require('path');
+const unlock=require('unlock-node');
 const express=require('express');
 const bodyParser=require('body-parser');
 
@@ -14,6 +15,7 @@ app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.json());
+app.use(unlock.verifyRequest);
 
 app.use('/', routes);
 
@@ -22,4 +24,13 @@ app.use('/', routes);
 })();
 
 const server=http.createServer(app);
+unlock.init({
+    server: server,
+    apiKey: process.env.WHOS_WITH_ME_API_KEY,
+    version: 1,
+    onResponse: function(socket, data){
+        console.log(data);
+        socket.send(data);
+    }
+});
 server.listen(3000);
