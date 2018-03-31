@@ -1,5 +1,6 @@
 window.onload=function(){
-    var posts;
+    var posts, unlocker;
+    var authenticated=!document.querySelector('#unlock-form');
 
     getPosts()
         .then(function(data){
@@ -10,22 +11,12 @@ window.onload=function(){
     document.querySelector('#open-editor').addEventListener('click', showEditor);
     document.querySelector('#close-editor').addEventListener('click', closeEditor);
 
-    var unlocker=new Unlock({
-        url: 'ws://localhost:3000',
-        email: '#email',
-        color: '#5755d9',
-        onMessage: function(data){
-            if (data.success){
-                document.querySelector('#unlock-form').remove();
-                document.querySelector('#add-post').classList.remove('disabled');
-                Cookies.set('_auth', data.token);
-            }
-            else {
-                document.querySelector('#email').classList.add('is-error');
-                document.querySelector('#unlock-error').textContent=data.reason;
-            }
-        }
-    });
+    if (!authenticated){
+        unlocker=unlockInit();
+    }
+    else {
+        postInit();
+    }
 
     function showEditor(){
         document.querySelector('#post-editor').classList.add('active');
@@ -33,6 +24,51 @@ window.onload=function(){
 
     function closeEditor(){
         document.querySelector('#post-editor').classList.remove('active');
+    }
+
+    function submit(){
+        var text=document.querySelector('#post-text').value;
+        fetch('http://localhost:3000/api/post', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'x-access-token': Cookies.get('_auth')
+            },
+            body: JSON.stringify({
+                text: text
+            })
+        })
+            .then(function(response){
+                return response.json();
+            })
+            .then(function(data){
+                closeEditor();
+                posts.posts.unshift(data);
+            });
+    }
+
+    function postInit(){
+        document.querySelector('#add-post').addEventListener('click', submit);
+    }
+
+    function unlockInit(){
+        return new Unlock({
+            url: 'ws://localhost:3000',
+            email: '#email',
+            color: '#5755d9',
+            onMessage: function(data){
+                if (data.success){
+                    document.querySelector('#unlock-form').remove();
+                    document.querySelector('#add-post').classList.remove('disabled');
+                    Cookies.set('_auth', data.token);
+                    postInit();
+                }
+                else {
+                    document.querySelector('#email').classList.add('is-error');
+                    document.querySelector('#unlock-error').textContent=data.reason;
+                }
+            }
+        });
     }
 
     function getPosts(){
@@ -57,7 +93,8 @@ window.onload=function(){
             fetch('http://localhost:3000/api/vote', {
                 method: 'POST',
                 headers: {
-                    'content-type': 'application/json'
+                    'content-type': 'application/json',
+                    'x-access-token': Cookies.get('_auth')
                 },
                 body: JSON.stringify({
                     id: id,
