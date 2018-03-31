@@ -1,4 +1,12 @@
 extends base
 
+block css
+  link(rel='stylesheet' href='https://rawgit.com/GuyShane/UnlockClient/master/src/unlock.min.css')
+  link(rel='stylesheet' href='/css/account.css')
+
+block js
+  script(src='https://rawgit.com/GuyShane/UnlockClient/master/src/unlock.min.js')
+  script(src='/js/account.js')
+
 block content
-  h1 Account
+  h1 Hey, #{user.username}! Always a pleasure.

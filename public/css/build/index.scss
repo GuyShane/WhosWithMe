@@ -1,11 +1,14 @@
 @import 'base';
 
+body {
+    padding-bottom: 8rem;
+}
+
 #spinner {
     margin-top: 5rem;
 }
 
 #posts {
-    margin-bottom: 8rem;
     .post {
         width: 450px;
         padding: 0.3rem;
@@ -37,6 +40,15 @@
                 }
             }
         }
+    }
+}
+
+#load-more {
+    display: table;
+    margin: auto;
+    margin-top: 1rem;
+    &:hover {
+        text-decoration: underline;
     }
 }
 

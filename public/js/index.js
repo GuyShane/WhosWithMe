@@ -1,12 +1,14 @@
 window.onload=function(){
     var posts, unlocker, masonry;
+    var page=1;
     var authenticated=!document.querySelector('#unlock-form');
 
-    getPosts()
+    getPosts(0)
         .then(function(data){
             removeLoader();
             posts=vueInit(data);
             masonry=masonryInit();
+            loadMoreInit();
         });
 
     document.querySelector('#open-editor').addEventListener('click', showEditor);
@@ -40,6 +42,10 @@ window.onload=function(){
 
     function postInit(){
         document.querySelector('#add-post').addEventListener('click', submit);
+    }
+
+    function loadMoreInit(){
+        document.querySelector('#load-more').addEventListener('click', loadMore);;
     }
 
     function masonryInit(){
@@ -116,6 +122,33 @@ window.onload=function(){
                     resolve(data);
                 });
         });
+    }
+
+    function loadMore(){
+        document.querySelector('#load-more').classList.add('loading');
+        fetch('http://localhost:3000/api/posts?page='+page, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then(function(response){
+                return response.json();
+            })
+            .then(function(data){
+                document.querySelector('#load-more').classList.remove('loading');
+                if (data.length===0){
+                    return;
+                }
+                page+=1;
+                for (var i=0; i<data.length; i++){
+                    posts.posts.push(data[i]);
+                }
+                Vue.nextTick(function(){
+                    masonry.destroy();
+                    masonry=masonryInit();
+                });
+            });
     }
 
     function vote(id, wth){
