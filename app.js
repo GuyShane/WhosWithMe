@@ -31,6 +31,7 @@ unlock.init({
     apiKey: process.env.WHOS_WITH_ME_API_KEY,
     version: 1,
     cookieName: '_auth',
+    exp: 7*24*60*60,
     onResponse: function(socket, data){
         let toSend={};
         switch(data.type){

@@ -1,0 +1,18 @@
+@import 'base';
+
+#about-container {
+    width: 80%;
+    max-width: 700px;
+    margin: auto;
+    margin-top: 2rem;
+    text-align: center;
+    #logo {
+        width: 15%;
+        min-width: 200px;
+        max-width: 300px;
+        filter: invert(40%);
+    }
+    .section {
+        margin: 1rem 0;
+    }
+}

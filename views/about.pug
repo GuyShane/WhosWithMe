@@ -1,17 +1,30 @@
 extends base
 
+block css
+  link(rel='stylesheet' href='/css/about.css')
+
 block content
-  div icons from
-    a(href='http://www.flaticon.com/') flaticon.com
-    | under the
-    a(href='http://creativecommons.org/licenses/by/3.0/') creative commons 3.0
-    | license. Icons by:
-  ul
-    li
-      a(href='https://www.flaticon.com/authors/rami-mcmin') Rami McMin
-    li
-      a(href='https://www.flaticon.com/authors/lucy-g') Lucy G
-    li
-      a(href='http://www.freepik.com') Freepik
-    li
-      a(href='https://www.flaticon.com/authors/catalin-fertu') Catalin Fertu
+  #about-container
+    img#logo(src='/img/logo.svg')
+    h1 Who's With Me?
+    .section Who's with me is a place to post your opinions and arguments and&nbsp;
+      | see if the general public is on your side or not. Or in other words,&nbsp;
+      | see who's with you. I know, right? Less obvious might be the logo.&nbsp;
+      | But it's like a division symbol because this is meant to be a forum for divisive issues,&nbsp;
+      | you know? I don't need to explain myself. But anyways, have fun seeing what the Internet thinks of your ideas!
+    .section You can find out more about the project itself and see the code on&nbsp;
+      a(href='#') GitHub
+    .section The icons are from&nbsp;
+      a(href='http://www.flaticon.com/') flaticon.com
+      | &nbsp;under the&nbsp;
+      a(href='http://creativecommons.org/licenses/by/3.0/') creative commons 3.0
+      | &nbsp;license. Icons by:
+      ul
+        li
+          a(href='https://www.flaticon.com/authors/rami-mcmin') Rami McMin
+        li
+          a(href='https://www.flaticon.com/authors/lucy-g') Lucy G
+        li
+          a(href='http://www.freepik.com') Freepik
+        li
+          a(href='https://www.flaticon.com/authors/catalin-fertu') Catalin Fertu
