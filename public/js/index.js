@@ -24,6 +24,7 @@ window.onload=function(){
 
     function removeLoader(){
         document.querySelector('#spinner').remove();
+        document.querySelector('#load-more').classList.remove('d-none');
     }
 
     function showEditor(){
@@ -50,7 +51,7 @@ window.onload=function(){
 
     function masonryInit(){
         return new Masonry('#posts', {
-            columnWidth: 450,
+            fitWidth: true,
             itemSelector: '.post'
         });
     }
@@ -206,6 +207,10 @@ window.onload=function(){
                     masonry.destroy();
                     masonry=masonryInit();
                 });
+            })
+            .catch(function(){
+                clearEditor();
+                document.querySelector('#post-text').focus();
             });
     }
 };

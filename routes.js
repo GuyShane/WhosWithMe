@@ -68,6 +68,10 @@ router.post('/api/post', async (req, res)=>{
         res.status(401).json({});
         return;
     }
+    if (req.body.text===''){
+        res.status(401).json({});
+        return;
+    }
     const user=res.locals.decoded.user.username;
     const newPost=await db.savePost(user, req.body.text);
     res.status(200).json(formatPost(newPost, user));

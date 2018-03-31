@@ -11,7 +11,7 @@ window.onload=function(){
 
     function masonryInit(){
         return new Masonry('#posts', {
-            columnWidth: 450,
+            fitWidth: true,
             itemSelector: '.post'
         });
     }

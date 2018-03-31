@@ -9,38 +9,3 @@
 [v-cloak] {
     display: none;
 }
-
-#posts {
-    .post {
-        width: 450px;
-        padding: 0.3rem;
-        .card {
-            border: 1px solid #a9a9a9;
-            border-radius: 0.2rem;
-            .buttons {
-                margin-bottom: 1rem;
-                padding: 0 0.7rem;
-                .btn {
-                    max-width: 45%;
-                    overflow-wrap: break-word;
-                    word-wrap: break-word;
-                    word-break: break-all;
-                    white-space: normal;
-                    height: auto;
-                }
-            }
-            .bar {
-                border: 1px solid #5755d9;
-                background: #dadada;
-            }
-            .counts {
-                display: table;
-                margin: auto;
-                margin-top: 0.5rem;
-                .count-separator {
-                    margin: 0 0.3rem;
-                }
-            }
-        }
-    }
-}
