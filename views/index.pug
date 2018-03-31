@@ -11,18 +11,17 @@ block js
 block content
   #spinner.loading.loading-lg
   #posts(v-cloak)
-    #posts-container(v-for='post in posts')
-      .card
-        .card-header
-          .h5.card-title {{ post.author }}
-        .card-body {{ post.text }}
-        .card-footer
-          .btn.btn-primary(v-on:click='vote($event, post._id, true)') I'm with {{ post.author }}
-          .btn(v-on:click='vote($event, post._id, false)') I'm against {{ post.author }}
-          .bar
-            .bar-item(:style='{width: ((post.with/(post.with+post.against))*100)+"%"}')
-          span.with-count {{ post.with }} with
-          span.against-count {{ post.against }} against
+    .post.card(v-for='post in posts')
+      .card-header
+        .h5.card-title {{ post.author }}
+      .card-body {{ post.text }}
+      .card-footer
+        .btn.btn-primary(v-on:click='vote($event, post._id, true)') I'm with {{ post.author }}
+        .btn(v-on:click='vote($event, post._id, false)') I'm against {{ post.author }}
+        .bar
+          .bar-item(:style='{width: ((post.with/(post.with+post.against))*100)+"%"}')
+        span.with-count {{ post.with }} with
+        span.against-count {{ post.against }} against
   span#open-editor.btn.btn-primary.circle
   #post-editor.modal
     .modal-overlay

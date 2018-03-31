@@ -1,11 +1,12 @@
 window.onload=function(){
-    var posts, unlocker;
+    var posts, unlocker, masonry;
     var authenticated=!document.querySelector('#unlock-form');
 
     getPosts()
         .then(function(data){
             removeLoader();
             posts=vueInit(data);
+            masonry=masonryInit();
         });
 
     document.querySelector('#open-editor').addEventListener('click', showEditor);
@@ -18,6 +19,10 @@ window.onload=function(){
         postInit();
     }
 
+
+    function removeLoader(){
+        document.querySelector('#spinner').remove();
+    }
 
     function showEditor(){
         document.querySelector('#post-editor').classList.add('active');
@@ -32,31 +37,40 @@ window.onload=function(){
         document.querySelector('#post-text').value='';
     }
 
-    function submit(){
-        document.querySelector('#add-post').classList.add('loading');
-        var text=document.querySelector('#post-text').value;
-        fetch('http://localhost:3000/api/post', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-                'x-access-token': Cookies.get('_auth')
-            },
-            body: JSON.stringify({
-                text: text
-            })
-        })
-            .then(function(response){
-                return response.json();
-            })
-            .then(function(data){
-                closeEditor();
-                clearEditor();
-                posts.posts.unshift(data);
-            });
-    }
-
     function postInit(){
         document.querySelector('#add-post').addEventListener('click', submit);
+    }
+
+    function masonryInit(){
+        return new Masonry('#posts', {
+            columnWidth: 200,
+            itemSelector: '.post'
+        });
+    }
+
+    function vueInit(data){
+        return new Vue({
+            el: '#posts',
+            data: {
+                posts: data
+            },
+            methods: {
+                vote: function(e, id, wth){
+                    var self=this;
+                    e.target.classList.add('loading');
+                    vote(id, wth)
+                        .then(function(data){
+                            for (var i=0; i<self.posts.length; i++){
+                                if (self.posts[i]._id===data._id){
+                                    e.target.classList.remove('loading');
+                                    Vue.set(self.posts, i, data);
+                                    break;
+                                }
+                            }
+                        });
+                }
+            }
+        });
     }
 
     function unlockInit(){
@@ -118,32 +132,30 @@ window.onload=function(){
         });
     }
 
-    function removeLoader(){
-        document.querySelector('#spinner').remove();
-    }
-
-    function vueInit(data){
-        return new Vue({
-            el: '#posts',
-            data: {
-                posts: data
+    function submit(){
+        document.querySelector('#add-post').classList.add('loading');
+        var text=document.querySelector('#post-text').value;
+        fetch('http://localhost:3000/api/post', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'x-access-token': Cookies.get('_auth')
             },
-            methods: {
-                vote: function(e, id, wth){
-                    var self=this;
-                    e.target.classList.add('loading');
-                    vote(id, wth)
-                        .then(function(data){
-                            for (var i=0; i<self.posts.length; i++){
-                                if (self.posts[i]._id===data._id){
-                                    e.target.classList.remove('loading');
-                                    Vue.set(self.posts, i, data);
-                                    break;
-                                }
-                            }
-                        });
-                }
-            }
-        });
+            body: JSON.stringify({
+                text: text
+            })
+        })
+            .then(function(response){
+                return response.json();
+            })
+            .then(function(data){
+                closeEditor();
+                clearEditor();
+                posts.posts.unshift(data);
+                Vue.nextTick(function(){
+                    masonry.destroy();
+                    masonry=masonryInit();
+                });
+            });
     }
 };
