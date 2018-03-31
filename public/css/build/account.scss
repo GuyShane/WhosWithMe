@@ -1,1 +1,13 @@
 @import 'base';
+
+#info {
+    text-align: center;
+    margin-top: 2rem;
+    #logout {
+        margin: 0.5rem 0;
+    }
+    #empty-notice {
+        width: 80%;
+        margin: auto;
+    }
+}

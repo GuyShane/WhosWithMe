@@ -12,14 +12,21 @@ router.get('/', (req, res)=>{
     res.render('index', ctx);
 });
 
-router.get('/account', (req, res)=>{
+router.get('/account', async (req, res)=>{
     if (!res.locals.authenticated){
         res.redirect('/login');
         return;
     }
+    const user=res.locals.decoded.user.username;
+    const posts=[];
+    (await db.getPosts({user: user})).forEach((p)=>{
+        posts.push(formatPost(p, user));
+    });
     const ctx={
         title: 'This is you',
-        user: res.locals.decoded.user
+        user: res.locals.decoded.user,
+        totals: await db.getTotals(user),
+        posts: posts
     };
     res.render('account', ctx);
 });
@@ -51,7 +58,7 @@ router.get('/api/posts', async (req, res)=>{
     }
     const posts=[];
     (await db.getPosts({page: page})).forEach((p)=>{
-        posts.push(formatPost(p, user, auth));
+        posts.push(formatPost(p, user));
     });
     res.status(200).json(posts);
 });
@@ -63,7 +70,7 @@ router.post('/api/post', async (req, res)=>{
     }
     const user=res.locals.decoded.user.username;
     const newPost=await db.savePost(user, req.body.text);
-    res.status(200).json(formatPost(newPost, user, true));
+    res.status(200).json(formatPost(newPost, user));
 });
 
 router.post('/api/vote', async (req, res)=>{
@@ -73,10 +80,10 @@ router.post('/api/vote', async (req, res)=>{
     }
     const user=res.locals.decoded.user.username;
     const newPost=await db.vote(req.body.id, user, req.body.with);
-    res.status(200).json(formatPost(newPost, user, true));
+    res.status(200).json(formatPost(newPost, user));
 });
 
-function formatPost(post, user, auth){
+function formatPost(post, user){
     const formatted=_.pick(post, ['_id', 'author', 'date', 'text']);
     const counts=_.countBy(post.votes, (v)=>{return v.with;});
     formatted.with=counts.true||0;

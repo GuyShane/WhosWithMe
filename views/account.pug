@@ -6,7 +6,39 @@ block css
 
 block js
   script(src='https://rawgit.com/GuyShane/UnlockClient/master/src/unlock.min.js')
+  script(src='/js/lib/masonry.min.js')
   script(src='/js/account.js')
 
 block content
-  h1 Hey, #{user.username}! Always a pleasure.
+  #info
+    h1 Hey, #{user.username}! Always a pleasure.
+    #logout.btn.btn-error Log out
+    if posts.length>0
+      h2 Overall, you have #{totals.with}&nbsp;
+        if totals.with==1
+          | person
+        else
+          |people
+        | &nbsp;with you, and #{totals.against}&nbsp;
+        if totals.against==1
+          | person
+        else
+          | people
+        | &nbsp;against you.
+      h2 Here are the things you've said to get there:
+    else
+      h2#empty-notice You haven't put up any of your opinions or arguments.&nbsp;
+        a(href='/') Throw some things out there
+        | &nbsp;to see who's with you. See who your real friends should be.
+    #posts
+      each post in posts
+        .post
+          .card
+            .card-body= post.text
+            .card-footer
+              .bar
+                .bar-item(style='width: '+post.percent+'%;')
+              .counts
+                span.with-count #{post.with} with
+                span.count-separator /
+                span.against-count #{post.against} against

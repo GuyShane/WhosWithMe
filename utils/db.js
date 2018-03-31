@@ -48,9 +48,24 @@ async function getPosts(opts){
     }
 }
 
+async function getTotals(user){
+    const totals={};
+    const data=await Post.aggregate([
+        {$match: {author: user}},
+        {$unwind: '$votes'},
+        {$group: {_id: '$votes.with', count: {$sum: 1}}}
+    ]);
+    const withs=_.find(data, ['_id', true]);
+    const againsts=_.find(data, ['_id', false]);
+    totals.with=withs?withs.count:0;
+    totals.against=againsts?againsts.count:0;
+    return totals;
+}
+
 module.exports={
     connect: connect,
     savePost: savePost,
     vote: vote,
-    getPosts: getPosts
+    getPosts: getPosts,
+    getTotals: getTotals
 };
