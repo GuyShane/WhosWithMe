@@ -11,17 +11,21 @@ block js
 block content
   #spinner.loading.loading-lg
   #posts(v-cloak)
-    .post.card(v-for='post in posts')
-      .card-header
-        .h5.card-title {{ post.author }}
-      .card-body {{ post.text }}
-      .card-footer
-        .btn.btn-primary(v-on:click='vote($event, post._id, true)') I'm with {{ post.author }}
-        .btn(v-on:click='vote($event, post._id, false)') I'm against {{ post.author }}
-        .bar
-          .bar-item(:style='{width: ((post.with/(post.with+post.against))*100)+"%"}')
-        span.with-count {{ post.with }} with
-        span.against-count {{ post.against }} against
+    .post(v-for='post in posts')
+      .card
+        .card-header
+          .h5.card-title {{ post.author }}
+        .card-body {{ post.text }}
+        .card-footer
+          .buttons.clearfix
+            .btn.btn-primary.btn-with.float-left(v-on:click='vote($event, post._id, true)') I'm with {{ post.author }}
+            .btn.btn-against.float-right(v-on:click='vote($event, post._id, false)') I'm against {{ post.author }}
+          .bar
+            .bar-item(:style='{width: post.percent+"%"}')
+          .counts
+            span.with-count {{ post.with }} with
+            span.count-separator /
+            span.against-count {{ post.against }} against
   span#open-editor.btn.btn-primary.circle
     img#add-icon(src='/img/add.svg' width='38' height='38')
   #post-editor.modal
@@ -34,7 +38,7 @@ block content
           p#unlock-error.form-input-hint
           #unlock-button
       .modal-body
-        #editor-header Whatcha thinkin about?
+        #editor-header Whatcha thinkin' about?
         textarea#post-text.form-input(rows='5')
       .modal-footer
         if !authenticated

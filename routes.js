@@ -59,16 +59,18 @@ function formatPost(post, user, auth){
     const counts=_.countBy(post.votes, (v)=>{return v.with;});
     formatted.with=counts.true||0;
     formatted.against=counts.false||0;
-    if (!auth){
-        post.state=0;
-    }
-    else if (_.find(post.votes, ['voter', user])){
-        post.state=2;
+    if (formatted.with===0 && formatted.against===0) {
+        formatted.percent=0;
     }
     else {
-        post.state=1;
+        let percent=(formatted.with/(formatted.with+formatted.against))*100;
+        formatted.percent=round(percent, 2);
     }
     return formatted;
+}
+
+function round(num, digits){
+    return parseFloat(num.toFixed(digits));
 }
 
 module.exports=router;

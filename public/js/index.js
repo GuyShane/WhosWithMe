@@ -26,6 +26,7 @@ window.onload=function(){
 
     function showEditor(){
         document.querySelector('#post-editor').classList.add('active');
+        document.querySelector('#post-text').focus();
     }
 
     function closeEditor(){
@@ -43,7 +44,7 @@ window.onload=function(){
 
     function masonryInit(){
         return new Masonry('#posts', {
-            columnWidth: 200,
+            columnWidth: 450,
             itemSelector: '.post'
         });
     }
@@ -67,6 +68,9 @@ window.onload=function(){
                                     break;
                                 }
                             }
+                        })
+                        .catch(function(){
+                            e.target.classList.remove('loading');
                         });
                 }
             }
@@ -78,6 +82,10 @@ window.onload=function(){
             url: 'ws://localhost:3000',
             email: '#email',
             color: '#5755d9',
+            onSend: function(){
+                document.querySelector('#email').classList.remove('is-error');
+                document.querySelector('#unlock-error').textContent='';
+            },
             onMessage: function(data){
                 if (data.success){
                     document.querySelector('#unlock-form').remove();
@@ -111,7 +119,7 @@ window.onload=function(){
     }
 
     function vote(id, wth){
-        return new Promise(function(resolve){
+        return new Promise(function(resolve, reject){
             fetch('http://localhost:3000/api/vote', {
                 method: 'POST',
                 headers: {
@@ -124,10 +132,16 @@ window.onload=function(){
                 })
             })
                 .then(function(response){
+                    if (!response.ok){
+                        return Promise.reject();
+                    }
                     return response.json();
                 })
                 .then(function(data){
                     resolve(data);
+                })
+                .catch(function(err){
+                    reject(err);
                 });
         });
     }
@@ -146,6 +160,9 @@ window.onload=function(){
             })
         })
             .then(function(response){
+                if (!response.ok){
+                    return Promise.reject();
+                }
                 return response.json();
             })
             .then(function(data){

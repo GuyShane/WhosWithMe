@@ -1,11 +1,66 @@
 @import 'base';
 
-.post {
-    width: 400px;
+#spinner {
+    margin-top: 5rem;
+}
+
+#posts {
+    margin-bottom: 8rem;
+    .post {
+        width: 450px;
+        padding: 0.3rem;
+        .card {
+            border: 1px solid #a9a9a9;
+            border-radius: 0.2rem;
+            .buttons {
+                margin-bottom: 1rem;
+                padding: 0 0.7rem;
+                .btn {
+                    max-width: 45%;
+                    overflow-wrap: break-word;
+                    word-wrap: break-word;
+                    word-break: break-all;
+                    white-space: normal;
+                    height: auto;
+                }
+            }
+            .bar {
+                border: 1px solid #5755d9;
+                background: #dadada;
+            }
+            .counts {
+                display: table;
+                margin: auto;
+                margin-top: 0.5rem;
+                .count-separator {
+                    margin: 0 0.3rem;
+                }
+            }
+        }
+    }
+}
+
+#post-editor {
+    #unlock-button {
+        display: table;
+        margin: auto;
+        margin-bottom: 1.5rem;
+    }
+    #editor-header {
+        font-size: 1rem;
+        font-weight: 400;
+        margin-bottom: 0.5rem;
+    }
+    #post-text {
+        resize: vertical;
+    }
+    #add-post {
+        margin-right: 0.5rem;
+    }
 }
 
 #open-editor {
-    position: absolute;
+    position: fixed;
     right: 3rem;
     bottom: 3rem;
     padding: 2rem;
