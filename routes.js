@@ -6,9 +6,18 @@ const db=require('./utils/db');
 
 router.get('/', (req, res)=>{
     const ctx={
+        title: 'Who\'s with me?',
         authenticated: res.locals.authenticated
     };
     res.render('index', ctx);
+});
+
+router.get('/about', (req, res)=>{
+    const ctx={
+        title: 'What\'s it all about',
+        authenticated: res.locals.authenticated
+    };
+    res.render('about', ctx);
 });
 
 router.get('/api/posts', async (req, res)=>{

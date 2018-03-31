@@ -7,10 +7,13 @@ html
   body
     header.navbar.bg-primary
       section.navbar-section
-        a.navbar-brand.bg-primary(href='#') WM
+        a.navbar-brand.bg-primary(href='/')
+          img(src='/img/logo.svg' width='35' height='35')
       section.navbar-section
-        a.bg-primary(href='#') profile
-        a.bg-primary(href='#') about
+        a.bg-primary(href='#')
+          img(src='/img/profile.svg' width='35' height='35')
+        a.bg-primary(href='/about')
+          img(src='/img/info.svg' width='35' height='35')
     block content
     script(src='/js/lib/promise.min.js')
     script(src='/js/lib/fetch.js')
