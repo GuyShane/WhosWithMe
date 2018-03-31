@@ -12,10 +12,32 @@ router.get('/', (req, res)=>{
     res.render('index', ctx);
 });
 
+router.get('/account', (req, res)=>{
+    if (!res.locals.authenticated){
+        res.redirect('/login');
+        return;
+    }
+    const ctx={
+        title: 'This is you',
+        user: res.locals.decoded.user
+    };
+    res.render('account', ctx);
+});
+
+router.get('/login', (req, res)=>{
+    if (res.locals.authenticated){
+        res.redirect('account');
+        return;
+    }
+    const ctx={
+        title: 'Log in'
+    };
+    res.render('login', ctx);
+});
+
 router.get('/about', (req, res)=>{
     const ctx={
-        title: 'What\'s it all about',
-        authenticated: res.locals.authenticated
+        title: 'What\'s it all about'
     };
     res.render('about', ctx);
 });

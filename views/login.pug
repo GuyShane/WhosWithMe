@@ -1,0 +1,16 @@
+extends base
+
+block css
+  link(rel='stylesheet' href='https://rawgit.com/GuyShane/UnlockClient/master/src/unlock.min.css')
+  link(rel='stylesheet' href='/css/login.css')
+
+block js
+  script(src='https://rawgit.com/GuyShane/UnlockClient/master/src/unlock.min.js')
+  script(src='/js/login.js')
+
+block content
+  #form-container
+    h2#form-title Log in to see your stuff
+    input#email.form-input(type='email' placeholder='Email')
+    p#form-error.form-input-hint
+    #unlock-button
