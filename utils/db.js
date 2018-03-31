@@ -28,9 +28,9 @@ async function savePost(author, text){
 }
 
 async function vote(pid, voter, wth){
-    const post=await Post.findOneById(new ObjectId(pid));
+    const post=await Post.findById(new ObjectId(pid));
     if (!!_.find(post.votes, ['voter', voter])){
-        return {};
+        return post;
     }
     post.votes.push({
         voter: voter,

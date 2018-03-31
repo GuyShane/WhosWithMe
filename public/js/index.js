@@ -18,6 +18,7 @@ window.onload=function(){
         postInit();
     }
 
+
     function showEditor(){
         document.querySelector('#post-editor').classList.add('active');
     }
@@ -26,7 +27,13 @@ window.onload=function(){
         document.querySelector('#post-editor').classList.remove('active');
     }
 
+    function clearEditor(){
+        document.querySelector('#add-post').classList.remove('loading');
+        document.querySelector('#post-text').value='';
+    }
+
     function submit(){
+        document.querySelector('#add-post').classList.add('loading');
         var text=document.querySelector('#post-text').value;
         fetch('http://localhost:3000/api/post', {
             method: 'POST',
@@ -43,6 +50,7 @@ window.onload=function(){
             })
             .then(function(data){
                 closeEditor();
+                clearEditor();
                 posts.posts.unshift(data);
             });
     }
@@ -121,8 +129,19 @@ window.onload=function(){
                 posts: data
             },
             methods: {
-                vote: function(id, wth){
-                    vote(id, wth);
+                vote: function(e, id, wth){
+                    var self=this;
+                    e.target.classList.add('loading');
+                    vote(id, wth)
+                        .then(function(data){
+                            for (var i=0; i<self.posts.length; i++){
+                                if (self.posts[i]._id===data._id){
+                                    e.target.classList.remove('loading');
+                                    Vue.set(self.posts, i, data);
+                                    break;
+                                }
+                            }
+                        });
                 }
             }
         });

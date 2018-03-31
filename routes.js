@@ -20,46 +20,46 @@ router.get('/api/posts', async (req, res)=>{
     }
     const posts=[];
     (await db.getPosts({page: page})).forEach((p)=>{
-        const post=_.pick(p, ['_id', 'author', 'date', 'text']);
-        const counts=_.countBy(p.votes, (v)=>{return v.with;});
-        post.with=counts.true||0;
-        post.against=counts.false||0;
-        if (!auth){
-            post.state=0;
-        }
-        else if (_.find(p.votes, ['voter', user])){
-            post.state=2;
-        }
-        else {
-            post.state=1;
-        }
-        posts.push(post);
+        posts.push(formatPost(p, user, auth));
     });
     res.status(200).json(posts);
 });
 
 router.post('/api/post', async (req, res)=>{
     if (!res.locals.authenticated){
-        res.status(401).send();
+        res.status(401).json({});
         return;
     }
     const user=res.locals.decoded.user.username;
     const newPost=await db.savePost(user, req.body.text);
-    const post=_.pick(newPost, ['_id', 'author', 'date', 'text']);
-    const counts=_.countBy(newPost.votes, (v)=>{return v.with;});
-    post.with=counts.true||0;
-    post.against=counts.false||0;
-    if (_.find(newPost.votes, ['voter', user])){
+    res.status(200).json(formatPost(newPost, user, true));
+});
+
+router.post('/api/vote', async (req, res)=>{
+    if (!res.locals.authenticated){
+        res.status(401).json({});
+        return;
+    }
+    const user=res.locals.decoded.user.username;
+    const newPost=await db.vote(req.body.id, user, req.body.with);
+    res.status(200).json(formatPost(newPost, user, true));
+});
+
+function formatPost(post, user, auth){
+    const formatted=_.pick(post, ['_id', 'author', 'date', 'text']);
+    const counts=_.countBy(post.votes, (v)=>{return v.with;});
+    formatted.with=counts.true||0;
+    formatted.against=counts.false||0;
+    if (!auth){
+        post.state=0;
+    }
+    else if (_.find(post.votes, ['voter', user])){
         post.state=2;
     }
     else {
         post.state=1;
     }
-    res.status(200).json(post);
-});
-
-router.post('/api/vote', (req, res)=>{
-    res.status(200).json({});
-});
+    return formatted;
+}
 
 module.exports=router;
