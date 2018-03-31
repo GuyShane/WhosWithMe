@@ -15,7 +15,15 @@ window.onload=function(){
         email: '#email',
         color: '#5755d9',
         onMessage: function(data){
-            console.log(data);
+            if (data.success){
+                document.querySelector('#unlock-form').remove();
+                document.querySelector('#add-post').classList.remove('disabled');
+                Cookies.set('_auth', data.token);
+            }
+            else {
+                document.querySelector('#email').classList.add('is-error');
+                document.querySelector('#unlock-error').textContent=data.reason;
+            }
         }
     });
 

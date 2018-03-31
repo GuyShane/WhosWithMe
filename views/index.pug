@@ -28,9 +28,10 @@ block content
     .modal-overlay
     .modal-container
       if !authenticated
-        .modal-header
+        #unlock-form.modal-header
           .modal-title Log in to see who's with you:
-          input.form-input(type='email' id='email' placeholder='Email')
+          input#email.form-input(type='email' placeholder='Email')
+          p#unlock-error.form-input-hint
           #unlock-button
       .modal-body
         #editor-header Whatcha thinkin about?
