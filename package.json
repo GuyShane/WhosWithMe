@@ -2,11 +2,11 @@
   "name": "whoswithme",
   "version": "1.0.0",
   "description": "",
-    "main": "app.js",
-    "engines": {
-        "node": "8.10.0",
-        "npm": "5.7.1"
-    },
+  "main": "app.js",
+  "engines": {
+    "node": "8.10.0",
+    "npm": "5.7.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,6 +19,7 @@
     "lodash": "^4.17.5",
     "mongoose": "^5.0.12",
     "pug": "^2.0.3",
+    "serve-favicon": "^2.5.0",
     "unlock-node": "^1.0.2"
   },
   "devDependencies": {

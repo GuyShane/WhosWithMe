@@ -2,6 +2,7 @@ const http=require('http');
 const path=require('path');
 const unlock=require('unlock-node');
 const express=require('express');
+const favicon=require('serve-favicon');
 const bodyParser=require('body-parser');
 const cookieParser=require('cookie-parser');
 
@@ -10,9 +11,10 @@ const routes=require('./routes');
 
 const app=express();
 
-app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.json());
