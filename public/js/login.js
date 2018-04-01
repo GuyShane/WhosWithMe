@@ -3,8 +3,9 @@ window.onload=function(){
     document.querySelector('#email').focus();
 
     function unlockInit(){
+        var url=window.location.origin.replace('http:', 'ws:').replace('https:', 'wss:');
         return new Unlock({
-            url: 'ws://localhost:3000',
+            url: url,
             email: '#email',
             color: '#5755d9',
             onSend: function(){

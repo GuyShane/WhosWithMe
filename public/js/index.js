@@ -1,6 +1,7 @@
 window.onload=function(){
     var posts, unlocker, masonry;
     var page=1;
+    var apiUrl=window.location.origin+'/api/';
     var authenticated=!document.querySelector('#unlock-form');
 
     getPosts(0)
@@ -91,8 +92,9 @@ window.onload=function(){
     }
 
     function unlockInit(){
+        var url=window.location.origin.replace('http:', 'ws:').replace('https:', 'wss:');
         return new Unlock({
-            url: 'ws://localhost:3000',
+            url: url,
             email: '#email',
             color: '#5755d9',
             onSend: function(){
@@ -116,7 +118,7 @@ window.onload=function(){
 
     function getPosts(){
         return new Promise(function(resolve){
-            fetch('http://localhost:3000/api/posts', {
+            fetch(apiUrl+'posts', {
                 method: 'GET',
                 headers: {
                     'content-type': 'application/json'
@@ -133,7 +135,7 @@ window.onload=function(){
 
     function loadMore(){
         document.querySelector('#load-more').classList.add('loading');
-        fetch('http://localhost:3000/api/posts?page='+page, {
+        fetch(apiUrl+'posts?page='+page, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -160,7 +162,7 @@ window.onload=function(){
 
     function vote(id, wth){
         return new Promise(function(resolve, reject){
-            fetch('http://localhost:3000/api/vote', {
+            fetch(apiUrl+'vote', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json',
@@ -189,7 +191,7 @@ window.onload=function(){
     function submit(){
         document.querySelector('#add-post').classList.add('loading');
         var text=document.querySelector('#post-text').value;
-        fetch('http://localhost:3000/api/post', {
+        fetch(apiUrl+'post', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
