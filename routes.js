@@ -37,7 +37,7 @@ router.get('/login', (req, res)=>{
         return;
     }
     const ctx={
-        title: 'Log in'
+        title: 'Who are you?'
     };
     res.render('login', ctx);
 });

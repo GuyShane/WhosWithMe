@@ -29,7 +29,13 @@ window.onload=function(){
 
     function showEditor(){
         document.querySelector('#post-editor').classList.add('active');
-        document.querySelector('#post-text').focus();
+        var email=document.querySelector('#email');
+        if (email){
+            email.focus();
+        }
+        else {
+            document.querySelector('#post-text').focus();
+        }
     }
 
     function closeEditor(){
