@@ -1,7 +1,6 @@
 #posts {
     margin: 0 auto;
     .post {
-        width: 450px;
         padding: 0.3rem;
         .card {
             border: 1px solid #a9a9a9;
@@ -31,5 +30,17 @@
                 }
             }
         }
+    }
+}
+
+@media (max-width: 600px) {
+    .post {
+        width: 300px;
+    }
+}
+
+@media (min-width: 600px) {
+    .post {
+        width: 450px;
     }
 }
