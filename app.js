@@ -25,6 +25,7 @@ app.use('/', routes);
     await db.connect();
 })();
 
+const port=process.env.PORT||3000;
 const server=http.createServer(app);
 unlock.init({
     server: server,
@@ -56,4 +57,4 @@ unlock.init({
         socket.send(JSON.stringify(toSend));
     }
 });
-server.listen(3000);
+server.listen(port);
