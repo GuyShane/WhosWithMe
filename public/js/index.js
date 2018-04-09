@@ -97,6 +97,8 @@ window.onload=function(){
             url: url,
             email: '#email',
             color: '#5755d9',
+            submitOnEnter: true,
+            whatsThis: true,
             onSend: function(){
                 document.querySelector('#email').classList.remove('is-error');
                 document.querySelector('#unlock-error').textContent='';
