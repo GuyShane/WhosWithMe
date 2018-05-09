@@ -48,6 +48,18 @@ window.onload=function(){
         document.querySelector('#post-text').value='';
     }
 
+    function toast(msg){
+        var container=document.querySelector('#toast-container');
+        if (!container.classList.contains('hidden')){
+            return;
+        }
+        document.querySelector('#notification').textContent=msg;
+        container.classList.remove('hidden');
+        setTimeout(function(){
+            container.classList.add('hidden');
+        }, 2000);
+    }
+
     function postInit(){
         document.querySelector('#add-post').addEventListener('click', submit);
     }
@@ -71,6 +83,10 @@ window.onload=function(){
             },
             methods: {
                 vote: function(e, id, wth){
+                    if (!authenticated){
+                        toast('Log in to vote and post');
+                        return;
+                    }
                     var self=this;
                     e.target.classList.add('loading');
                     vote(id, wth)
@@ -108,6 +124,7 @@ window.onload=function(){
                     document.querySelector('#unlock-form').remove();
                     document.querySelector('#add-post').classList.remove('disabled');
                     Cookies.set('_auth', data.token);
+                    authenticated=true;
                     postInit();
                 }
                 else {

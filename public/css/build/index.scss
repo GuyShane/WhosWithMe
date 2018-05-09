@@ -37,6 +37,21 @@ body {
     }
 }
 
+#toast-container {
+    position: fixed;
+    bottom: 100px;
+    width: 100%;
+    transition: opacity 0.3s;
+    z-index: -1;
+    .toast {
+        display: table;
+        margin: auto;
+        width: 80%;
+        max-width: 400px;
+        text-align: center;
+    }
+}
+
 #open-editor {
     position: fixed;
     right: 3rem;
