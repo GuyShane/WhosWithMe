@@ -49,14 +49,14 @@ window.onload=function(){
     }
 
     function toast(msg){
-        var container=document.querySelector('#toast-container');
-        if (!container.classList.contains('hidden')){
+        var container=document.querySelector('#notification');
+        if (!container.classList.contains('d-none')){
             return;
         }
-        document.querySelector('#notification').textContent=msg;
-        container.classList.remove('hidden');
+        container.textContent=msg;
+        container.classList.remove('d-none');
         setTimeout(function(){
-            container.classList.add('hidden');
+            container.classList.add('d-none');
         }, 2000);
     }
 
