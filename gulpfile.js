@@ -1,7 +1,7 @@
 const gulp=require('gulp');
 const sass=require('gulp-sass');
 
-gulp.task('scss', ()=>{
+function scss(){
     return gulp.src('./public/css/build/*.scss')
         .pipe(sass({
             indentedSyntax: false,
@@ -9,12 +9,13 @@ gulp.task('scss', ()=>{
             outputStyle: 'compressed'
         }).on('error', sass.logError))
         .pipe(gulp.dest('./public/css'));
-});
+}
 
-gulp.task('watch-css', ()=>{
-    return gulp.watch('./public/css/build/*.scss', ['scss']);
-});
+function watchCss(){
+    return gulp.watch('./public/css/build/*.scss', scss);
+}
 
-gulp.task('css', ['scss', 'watch-css']);
-
-gulp.task('default', ['css']);
+module.exports={
+    scss,
+    default: gulp.series(scss, watchCss),
+};

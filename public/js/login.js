@@ -16,7 +16,7 @@ window.onload=function(){
             },
             onMessage: function(data){
                 if (data.success){
-                    Cookies.set('_auth', data.token);
+                    Cookies.set('_wwmat', data.token, {expires: 7});
                     window.location.reload();
                 }
                 else {

@@ -7,15 +7,18 @@ const Post=require('../models/post');
 function connect(){
     mongoose.Promise=global.Promise;
     return new Promise((resolve, reject)=>{
-        mongoose.connect(process.env.WHOS_WITH_ME_DB_URL);
-
-        mongoose.connection.on('connected', ()=>{
-            resolve();
-        });
-
-        mongoose.connection.on('error', (err)=>{
+        mongoose.connect(process.env.DB_URL, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            user: process.env.MONGO_INITDB_ROOT_USERNAME,
+            pass: process.env.MONGO_INITDB_ROOT_PASSWORD,
+            dbName: 'whoswithme',
+            reconnectTries: 5,
+            reconnectInterval: 1000
+        }, err=>{
             reject(err);
         });
+        mongoose.connection.on('connected', resolve);
     });
 }
 

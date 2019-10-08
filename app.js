@@ -1,4 +1,3 @@
-const http=require('http');
 const path=require('path');
 const unlock=require('unlock-node');
 const express=require('express');
@@ -27,13 +26,12 @@ app.use('/', routes);
     await db.connect();
 })();
 
-const port=process.env.PORT||4000;
-const server=http.createServer(app);
+const server=app.listen(3000);
 unlock.init({
     server: server,
-    apiKey: process.env.WHOS_WITH_ME_API_KEY,
+    apiKey: process.env.API_KEY,
     version: 1,
-    cookieName: '_auth',
+    cookieName: '_wwmat',
     exp: 7*24*60*60,
     onResponse: function(socket, data){
         let toSend={};
@@ -45,7 +43,7 @@ unlock.init({
         case unlock.responses.NOT_UNLOCKED:
             toSend.success=false;
             if (data.passable){
-                toSend.reason=data.userMessage;
+                toSend.reason=data.message;
             }
             else {
                 toSend.reason='Couldn\'t log you in. Sorry';
@@ -59,4 +57,3 @@ unlock.init({
         socket.send(JSON.stringify(toSend));
     }
 });
-server.listen(port);

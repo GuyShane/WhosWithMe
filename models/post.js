@@ -6,9 +6,13 @@ const Vote=require('./vote');
 
 const postSchema=new Schema({
     author: {type: String, required: true},
-    date: {type: Date, default: new Date()},
     text: {type: String, required: true},
     votes: [Vote]
+}, {
+    timestamps: {
+        createdAt: 'date',
+        updatedAt: 'updated'
+    }
 });
 
 const Post=mongoose.model('Post', postSchema);

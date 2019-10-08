@@ -123,7 +123,7 @@ window.onload=function(){
                 if (data.success){
                     document.querySelector('#unlock-form').remove();
                     document.querySelector('#add-post').classList.remove('disabled');
-                    Cookies.set('_auth', data.token);
+                    Cookies.set('_wwmat', data.token, {expires: 7});
                     authenticated=true;
                     postInit();
                 }
@@ -185,7 +185,7 @@ window.onload=function(){
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json',
-                    'x-access-token': Cookies.get('_auth')
+                    'x-access-token': Cookies.get('_wwmat')
                 },
                 body: JSON.stringify({
                     id: id,
@@ -214,7 +214,7 @@ window.onload=function(){
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
-                'x-access-token': Cookies.get('_auth')
+                'x-access-token': Cookies.get('_wwmat')
             },
             body: JSON.stringify({
                 text: text
