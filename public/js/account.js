@@ -4,7 +4,7 @@ window.onload=function(){
 
     function logoutInit(){
         document.querySelector('#logout').addEventListener('click', function(){
-            Cookies.expire('_auth');
+            Cookies.remove('_wwmat');
             window.location.href='/';
         });
     }
