@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile.prod
+    ports:
+      - 80:3000
+    env_file: ./.env
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:4.0
+    ports:
+      - 27017:27017
+    volumes:
+      - /data/db:/data/db
+    env_file: ./.env

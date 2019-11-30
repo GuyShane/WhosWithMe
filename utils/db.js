@@ -12,9 +12,7 @@ function connect(){
             useUnifiedTopology: true,
             user: process.env.MONGO_INITDB_ROOT_USERNAME,
             pass: process.env.MONGO_INITDB_ROOT_PASSWORD,
-            dbName: 'whoswithme',
-            reconnectTries: 5,
-            reconnectInterval: 1000
+            dbName: 'whoswithme'
         }, err=>{
             reject(err);
         });

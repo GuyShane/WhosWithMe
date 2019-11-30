@@ -4,9 +4,11 @@
     "description": "",
     "main": "app.js",
     "scripts": {
+        "start": "node app.js",
+        "dev": "run-p gulp local",
         "gulp": "gulp",
         "build": "gulp scss",
-        "start": "node app.js"
+        "local": "nodemon app.js"
     },
     "author": "",
     "license": "MIT",
@@ -15,14 +17,16 @@
         "cookie-parser": "^1.4.4",
         "express": "^4.17.1",
         "lodash": "^4.17.15",
-        "mongoose": "^5.7.3",
+        "mongoose": "^5.7.13",
         "pug": "^2.0.4",
         "saslprep": "^1.0.3",
         "serve-favicon": "^2.5.0",
-        "unlock-node": "^2.0.1"
+        "unlock-node": "^2.1.0"
     },
     "devDependencies": {
         "gulp": "^4.0.2",
-        "gulp-sass": "^4.0.2"
+        "gulp-sass": "^4.0.2",
+        "nodemon": "^2.0.1",
+        "npm-run-all": "^4.1.5"
     }
 }

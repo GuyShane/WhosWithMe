@@ -108,17 +108,13 @@ window.onload=function(){
     }
 
     function unlockInit(){
-        var url=window.location.origin.replace('http:', 'ws:').replace('https:', 'wss:');
-        return new Unlock({
+        var url=window.location.origin.replace('http', 'ws');
+        Unlock.init({
             url: url,
             email: '#email',
             color: '#5755d9',
             submitOnEnter: true,
             whatsThis: true,
-            onSend: function(){
-                document.querySelector('#email').classList.remove('is-error');
-                document.querySelector('#unlock-error').textContent='';
-            },
             onMessage: function(data){
                 if (data.success){
                     document.querySelector('#unlock-form').remove();
