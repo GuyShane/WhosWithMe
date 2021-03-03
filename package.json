@@ -18,7 +18,7 @@
         "express": "^4.17.1",
         "lodash": "^4.17.15",
         "mongoose": "^5.7.13",
-        "pug": "^2.0.4",
+        "pug": "^3.0.1",
         "saslprep": "^1.0.3",
         "serve-favicon": "^2.5.0",
         "unlock-node": "^2.1.0"
